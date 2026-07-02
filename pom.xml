@@ -40,11 +40,24 @@
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-boot-starter</artifactId>
             <version>3.5.16</version>
+            <!-- 排除旧版 mybatis-spring，改用 3.0.4 -->
+            <exclusions>
+                <exclusion>
+                    <groupId>org.mybatis</groupId>
+                    <artifactId>mybatis-spring</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-jsqlparser</artifactId>
             <version>3.5.16</version>
+        </dependency>
+        <!-- 覆盖 mybatis-spring 版本，兼容 Spring 6.2.x -->
+        <dependency>
+            <groupId>org.mybatis</groupId>
+            <artifactId>mybatis-spring</artifactId>
+            <version>3.0.4</version>
         </dependency>
         <dependency>
             <groupId>com.aliyun.oss</groupId>

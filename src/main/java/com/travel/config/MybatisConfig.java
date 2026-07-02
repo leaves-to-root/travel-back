@@ -2,11 +2,13 @@ package com.travel.config;
 
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
 
 @Configuration
+@MapperScan("com.travel.mapper")
 public class MybatisConfig {
     @Bean
     public MybatisPlusInterceptor mybatisPlusInterceptor() {

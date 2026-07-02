@@ -14,8 +14,8 @@ public class Knife4jConfig {
     public OpenAPI customOpenAPI() {
         return new OpenAPI()
                 .info(new Info()
-                        .title("ChronoJudge API 文档")
-                        .description("ChronoJudge 在线判题系统接口文档")
+                        .title("旅游网站 API 文档")
+                        .description("旅游网站（SpringBoot + Vue）接口文档")
                         .contact(new Contact()
                                 .name("leaves-to-root")
                                 .email("contact@chronoloop.top")

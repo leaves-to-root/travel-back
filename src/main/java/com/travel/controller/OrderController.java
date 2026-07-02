@@ -18,9 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api/order")
@@ -41,6 +39,35 @@ public class OrderController {
     @Transactional(rollbackFor = Exception.class)
     public Result<Map<String, Object>> create(@RequestBody CreateOrderRequest req) {
         Long userId = BaseContext.getCurrentId();
+        Order order = createSingleOrder(userId, req);
+        return Result.success(Map.of("orderId", order.getId(), "orderNo", order.getOrderNo()));
+    }
+
+    @PostMapping("/createBatch")
+    @Operation(summary = "批量创建订单并支付（购物车一键付款）")
+    @Transactional(rollbackFor = Exception.class)
+    public Result<Map<String, Object>> createBatch(@RequestBody List<CreateOrderRequest> reqs) {
+        Long userId = BaseContext.getCurrentId();
+        if (reqs == null || reqs.isEmpty()) throw new BizException("请选择要结算的订单");
+        Set<Long> usedCoupons = new HashSet<>();
+        List<Long> orderIds = new ArrayList<>();
+        LocalDateTime payTime = LocalDateTime.now();
+        for (CreateOrderRequest req : reqs) {
+            if (req.getCouponId() != null && !usedCoupons.add(req.getCouponId())) {
+                throw new BizException("同一优惠券不能重复使用");
+            }
+            Order order = createSingleOrder(userId, req);
+            // 一键付款：直接设置订单为已支付状态
+            order.setStatus(1);
+            order.setPayType("mock");
+            order.setPayTime(payTime);
+            orderService.updateById(order);
+            orderIds.add(order.getId());
+        }
+        return Result.success(Map.of("orderIds", orderIds));
+    }
+
+    private Order createSingleOrder(Long userId, CreateOrderRequest req) {
         if (req.getProductId() == null) throw new BizException("请选择产品");
         Product product = productService.getById(req.getProductId());
         if (product == null || product.getStatus() == 0) throw new BizException("产品不存在或已下架");
@@ -130,7 +157,7 @@ public class OrderController {
                 .setSql("sales = sales + " + req.getPersonCount())
                 .update();
 
-        return Result.success(Map.of("orderId", order.getId(), "orderNo", order.getOrderNo()));
+        return order;
     }
 
     @GetMapping("/pay/{orderId}")

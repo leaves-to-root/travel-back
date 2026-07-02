@@ -79,7 +79,7 @@ travel:
   # 阿里云 OSS（请按需填写真实配置）
   aliyun:
     oss:
-      endpoint: ""
-      access-key-id: ""
-      access-key-secret: ""
-      bucket-name: ""
+      endpoint: "xxx"
+      access-key-id: "xxx"
+      access-key-secret: "xxx"
+      bucket-name: "xxx"

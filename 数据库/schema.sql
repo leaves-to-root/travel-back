@@ -37,7 +37,6 @@ DROP TABLE IF EXISTS `admin`;
 CREATE TABLE `admin` (
   `id`          BIGINT       NOT NULL AUTO_INCREMENT COMMENT '主键',
   `username`    VARCHAR(64)  NOT NULL COMMENT '账号',
-  `email`       VARCHAR(128) DEFAULT NULL COMMENT '邮箱',
   `password`    VARCHAR(128) NOT NULL COMMENT '密码（BCrypt）',
   `nickname`    VARCHAR(64)  DEFAULT NULL COMMENT '昵称',
   `avatar`      VARCHAR(512) DEFAULT NULL COMMENT '头像',
@@ -47,8 +46,7 @@ CREATE TABLE `admin` (
   `update_time` DATETIME     DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `deleted`     TINYINT      DEFAULT 0,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `uk_admin_username` (`username`, `deleted`),
-  UNIQUE KEY `uk_admin_email` (`email`, `deleted`)
+  UNIQUE KEY `uk_admin_username` (`username`, `deleted`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='管理员表';
 
 -- ------------------------------

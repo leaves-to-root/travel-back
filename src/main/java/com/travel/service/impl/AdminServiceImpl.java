@@ -15,10 +15,4 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
         return getOne(new LambdaQueryWrapper<Admin>()
                 .eq(Admin::getUsername, username).last("LIMIT 1"));
     }
-
-    @Override
-    public Admin getByEmail(String email) {
-        return getOne(new LambdaQueryWrapper<Admin>()
-                .eq(Admin::getEmail, email).last("LIMIT 1"));
-    }
 }

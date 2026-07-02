@@ -8,8 +8,8 @@
 -- ------------------------------
 -- 管理员（账号 admin / 密码 123456）
 -- ------------------------------
-INSERT INTO `admin`(`username`, `password`, `nickname`, `avatar`, `role`, `status`)
-VALUES ('admin', '$2a$10$l71iCsNF7C5XERxB2xkjtOkQYdLZd6aJec8cKEDhghPEAC6qdHo6u', '超级管理员', NULL, 'admin', 1);
+INSERT INTO `admin`(`username`, `email`, `password`, `nickname`, `avatar`, `role`, `status`)
+VALUES ('admin', 'admin@travel.com', '$2a$10$l71iCsNF7C5XERxB2xkjtOkQYdLZd6aJec8cKEDhghPEAC6qdHo6u', '超级管理员', NULL, 'admin', 1);
 
 -- ------------------------------
 -- 示例用户（账号 user1 / 密码 123456）

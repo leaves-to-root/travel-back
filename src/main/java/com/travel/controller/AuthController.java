@@ -2,19 +2,21 @@ package com.travel.controller;
 
 import cn.hutool.core.util.StrUtil;
 import com.travel.common.BizException;
+import com.travel.common.Constants;
 import com.travel.common.Result;
 import com.travel.common.ResultCode;
-import com.travel.common.context.BaseContext;
 import com.travel.common.context.TokenService;
 import com.travel.dto.request.LoginRequest;
 import com.travel.dto.request.RegisterRequest;
 import com.travel.entity.User;
+import com.travel.service.CaptchaService;
 import com.travel.service.UserService;
 import com.travel.utils.PasswordUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -29,12 +31,24 @@ public class AuthController {
 
     private final UserService userService;
     private final TokenService tokenService;
+    private final CaptchaService captchaService;
+    private final StringRedisTemplate redisTemplate;
+
     @PostMapping("/register")
     @Operation(summary = "用户注册")
     public Result<Map<String, Object>> register(@RequestBody RegisterRequest req) {
-        if (StrUtil.isBlank(req.getUsername()) && StrUtil.isBlank(req.getPhone())) {
-            throw new BizException("用户名或手机号至少填一项");
+        // 邮箱必填
+        if (StrUtil.isBlank(req.getEmail())) {
+            throw new BizException("邮箱不能为空");
         }
+        // 校验邮箱验证码
+        String codeKey = Constants.EMAIL_CODE_PREFIX + req.getEmail();
+        String cachedCode = redisTemplate.opsForValue().get(codeKey);
+        if (cachedCode == null || !cachedCode.equals(req.getEmailCode())) {
+            throw new BizException(ResultCode.EMAIL_CODE_ERROR);
+        }
+        redisTemplate.delete(codeKey); // 验证码一次性使用
+
         if (StrUtil.isBlank(req.getPassword()) || req.getPassword().length() < 6) {
             throw new BizException("密码不能少于6位");
         }
@@ -42,13 +56,12 @@ public class AuthController {
         if (StrUtil.isNotBlank(req.getUsername()) && userService.getByUsername(req.getUsername()) != null) {
             throw new BizException(ResultCode.USER_EXISTS);
         }
-        if (StrUtil.isNotBlank(req.getPhone()) && userService.getByPhone(req.getPhone()) != null) {
-            throw new BizException("手机号已被注册");
+        if (userService.getByEmail(req.getEmail()) != null) {
+            throw new BizException(ResultCode.EMAIL_ALREADY_EXISTS);
         }
         // 创建用户
         User user = new User();
-        user.setUsername(req.getUsername());
-        user.setPhone(req.getPhone());
+        user.setUsername(StrUtil.isNotBlank(req.getUsername()) ? req.getUsername() : null);
         user.setEmail(req.getEmail());
         user.setPassword(PasswordUtil.encode(req.getPassword()));
         user.setNickname(StrUtil.isNotBlank(req.getNickname()) ? req.getNickname() : "用户" + System.currentTimeMillis() % 10000);
@@ -64,20 +77,47 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    @Operation(summary = "用户登录")
+    @Operation(summary = "用户登录（用户名+密码+图形验证码 / 邮箱+邮箱验证码）")
     public Result<Map<String, Object>> login(@RequestBody LoginRequest req) {
-        if (StrUtil.isBlank(req.getUsername()) && StrUtil.isBlank(req.getPhone())) {
-            throw new BizException("请输入用户名或手机号");
-        }
+        String loginType = StrUtil.isNotBlank(req.getLoginType()) ? req.getLoginType() : "username";
         User user;
-        if (StrUtil.isNotBlank(req.getPhone())) {
-            user = userService.getByPhone(req.getPhone());
+
+        if ("email".equals(loginType)) {
+            // 邮箱登录：校验邮箱验证码
+            if (StrUtil.isBlank(req.getEmail())) {
+                throw new BizException("请输入邮箱");
+            }
+            // 校验邮箱验证码
+            String codeKey = Constants.EMAIL_CODE_PREFIX + req.getEmail();
+            String cachedCode = redisTemplate.opsForValue().get(codeKey);
+            if (cachedCode == null || !cachedCode.equals(req.getEmailCode())) {
+                throw new BizException(ResultCode.EMAIL_CODE_ERROR);
+            }
+            redisTemplate.delete(codeKey);
+            // 按邮箱查找用户
+            user = userService.getByEmail(req.getEmail());
+            if (user == null) {
+                throw new BizException(ResultCode.USER_NOT_EXISTS);
+            }
         } else {
+            // 用户名登录：校验图形验证码 + 密码
+            if (StrUtil.isBlank(req.getUsername())) {
+                throw new BizException("请输入用户名");
+            }
+            if (StrUtil.isBlank(req.getPassword())) {
+                throw new BizException("请输入密码");
+            }
+            // 校验图形验证码
+            if (!captchaService.verify(req.getCaptchaKey(), req.getCaptchaCode())) {
+                throw new BizException(ResultCode.CAPTCHA_ERROR);
+            }
+            // 按用户名查找
             user = userService.getByUsername(req.getUsername());
+            if (user == null || !PasswordUtil.matches(req.getPassword(), user.getPassword())) {
+                throw new BizException(ResultCode.LOGIN_FAILED);
+            }
         }
-        if (user == null || !PasswordUtil.matches(req.getPassword(), user.getPassword())) {
-            throw new BizException(ResultCode.LOGIN_FAILED);
-        }
+
         if (user.getStatus() == 0) {
             throw new BizException(ResultCode.ACCOUNT_DISABLED);
         }

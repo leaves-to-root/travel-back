@@ -16,6 +16,9 @@ public class Admin extends BaseEntity {
     @Schema(description = "账号")
     private String username;
 
+    @Schema(description = "邮箱")
+    private String email;
+
     @JsonIgnore
     @Schema(description = "密码")
     private String password;

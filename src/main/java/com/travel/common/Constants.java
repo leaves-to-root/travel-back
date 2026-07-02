@@ -15,6 +15,13 @@ public final class Constants {
     /** token 有效期（秒），7天 */
     public static final long TOKEN_EXPIRE = 60 * 60 * 24 * 7;
 
+    /** Redis 中邮箱验证码前缀 */
+    public static final String EMAIL_CODE_PREFIX = "travel:code:email:";
+    /** Redis 中图形验证码前缀 */
+    public static final String CAPTCHA_PREFIX = "travel:code:captcha:";
+    /** 验证码有效期（秒），5分钟 */
+    public static final long CODE_EXPIRE = 60 * 5;
+
     /** 请求头 token 字段名 */
     public static final String TOKEN_HEADER = "Authorization";
 

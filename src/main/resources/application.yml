@@ -7,6 +7,28 @@ spring:
   jackson:
     time-zone: GMT+8
     date-format: yyyy-MM-dd HH:mm:ss
+  mail:
+    host: smtp.163.com
+    port: 465
+    username: xxx
+    password: xxx
+    default-encoding: UTF-8
+    properties:
+      mail.smtp.auth: true
+      mail.smtp.ssl.enable: true
+      mail.smtp.ssl.trust: smtp.163.com
+      mail.smtp.connectiontimeout: 15000
+      mail.smtp.timeout: 15000
+      mail.smtp.writetimeout: 15000
+# 如果上面 465 端口超时，注释掉上面 properties，改用下面 587 端口配置:
+#    port: 587
+#    properties:
+#      mail.smtp.auth: true
+#      mail.smtp.starttls.enable: true
+#      mail.smtp.starttls.required: true
+#      mail.smtp.connectiontimeout: 15000
+#      mail.smtp.timeout: 15000
+#      mail.smtp.writetimeout: 15000
   sql:
     init:
       mode: never

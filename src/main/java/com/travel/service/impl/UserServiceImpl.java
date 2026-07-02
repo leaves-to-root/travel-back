@@ -21,4 +21,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         return getOne(new LambdaQueryWrapper<User>()
                 .eq(User::getPhone, phone).last("LIMIT 1"));
     }
+
+    @Override
+    public User getByEmail(String email) {
+        return getOne(new LambdaQueryWrapper<User>()
+                .eq(User::getEmail, email).last("LIMIT 1"));
+    }
 }

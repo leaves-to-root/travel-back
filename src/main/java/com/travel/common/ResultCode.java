@@ -29,7 +29,11 @@ public enum ResultCode {
     COUPON_USED(400, "优惠券已使用"),
     COUPON_EXPIRED(400, "优惠券已过期"),
     HAS_COMMENTED(400, "已评价过该订单"),
-    REPEAT_OPERATION(400, "请勿重复操作");
+    REPEAT_OPERATION(400, "请勿重复操作"),
+    CAPTCHA_ERROR(400, "图形验证码错误或已过期"),
+    EMAIL_CODE_ERROR(400, "邮箱验证码错误或已过期"),
+    EMAIL_SEND_FAIL(500, "邮件发送失败，请稍后再试"),
+    EMAIL_ALREADY_EXISTS(400, "该邮箱已被注册");
 
     private final Integer code;
     private final String msg;

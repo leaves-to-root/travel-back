@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/admin/log")
 @RequiredArgsConstructor
-@Tag(name = "后台-操作日志")
+@Tag(name = "后台-操作日志", description = "操作日志列表查询")
 public class AdminLogController {
 
     private final OperationLogService logService;

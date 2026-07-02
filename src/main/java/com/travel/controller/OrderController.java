@@ -25,7 +25,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/order")
 @RequiredArgsConstructor
-@Tag(name = "订单")
+@Tag(name = "订单", description = "下单、支付、取消、退款、订单列表")
 public class OrderController {
 
     private final OrderService orderService;

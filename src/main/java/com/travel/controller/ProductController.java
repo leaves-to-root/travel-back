@@ -22,7 +22,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/product")
 @RequiredArgsConstructor
-@Tag(name = "旅游产品")
+@Tag(name = "旅游产品", description = "产品列表、详情、热门推荐、筛选排序")
 public class ProductController {
 
     private final ProductService productService;

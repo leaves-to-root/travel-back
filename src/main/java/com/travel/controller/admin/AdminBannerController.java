@@ -13,7 +13,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/admin/banner")
 @RequiredArgsConstructor
-@Tag(name = "后台-轮播图管理")
+@Tag(name = "后台-轮播图管理", description = "轮播图CRUD、排序")
 public class AdminBannerController {
 
     private final BannerService bannerService;

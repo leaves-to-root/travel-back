@@ -17,7 +17,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/common")
 @RequiredArgsConstructor
-@Tag(name = "通用接口")
+@Tag(name = "通用接口", description = "文件上传等公共功能")
 public class CommonController {
 
     private final ALiYunOssUtil aliYunOssUtil;

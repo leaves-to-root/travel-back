@@ -61,8 +61,3 @@ travel:
       access-key-id: ""
       access-key-secret: ""
       bucket-name: ""
-
-knife4j:
-  enable: true
-  setting:
-    language: zh_cn

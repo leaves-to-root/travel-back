@@ -20,7 +20,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/admin/auth")
 @RequiredArgsConstructor
-@Tag(name = "管理员认证")
+@Tag(name = "管理员认证", description = "管理员登录、登出、当前用户")
 public class AdminAuthController {
 
     private final AdminService adminService;

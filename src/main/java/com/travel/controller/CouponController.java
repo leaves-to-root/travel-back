@@ -17,7 +17,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/coupon")
 @RequiredArgsConstructor
-@Tag(name = "优惠券")
+@Tag(name = "优惠券", description = "领取优惠券、我的优惠券")
 public class CouponController {
 
     private final CouponService couponService;

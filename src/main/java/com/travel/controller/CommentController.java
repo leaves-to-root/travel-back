@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/comment")
 @RequiredArgsConstructor
-@Tag(name = "评论评分")
+@Tag(name = "评论评分", description = "产品评价提交、评价列表")
 public class CommentController {
 
     private final CommentService commentService;

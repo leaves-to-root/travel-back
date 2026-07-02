@@ -13,7 +13,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/admin/category")
 @RequiredArgsConstructor
-@Tag(name = "后台-分类管理")
+@Tag(name = "后台-分类管理", description = "分类增删改查")
 public class AdminCategoryController {
 
     private final CategoryService categoryService;

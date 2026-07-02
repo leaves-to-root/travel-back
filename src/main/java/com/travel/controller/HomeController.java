@@ -19,7 +19,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/home")
 @RequiredArgsConstructor
-@Tag(name = "首页")
+@Tag(name = "首页", description = "轮播图、热门推荐、特价优惠")
 public class HomeController {
 
     private final BannerService bannerService;

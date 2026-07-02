@@ -16,7 +16,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/admin/product")
 @RequiredArgsConstructor
-@Tag(name = "后台-产品管理")
+@Tag(name = "后台-产品管理", description = "产品CRUD、上下架")
 public class AdminProductController {
 
     private final ProductService productService;

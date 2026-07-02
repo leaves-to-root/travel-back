@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/note")
 @RequiredArgsConstructor
-@Tag(name = "游记")
+@Tag(name = "游记", description = "游记发布、浏览、我的游记")
 public class TravelNoteController {
 
     private final TravelNoteService noteService;

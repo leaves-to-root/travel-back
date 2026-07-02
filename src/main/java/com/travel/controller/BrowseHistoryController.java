@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/history")
 @RequiredArgsConstructor
-@Tag(name = "浏览历史")
+@Tag(name = "浏览历史", description = "记录浏览、历史列表")
 public class BrowseHistoryController {
 
     private final BrowseHistoryService historyService;

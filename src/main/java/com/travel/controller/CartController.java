@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/cart")
 @RequiredArgsConstructor
-@Tag(name = "购物车")
+@Tag(name = "购物车", description = "购物车增删改查、数量调整")
 public class CartController {
 
     private final CartService cartService;

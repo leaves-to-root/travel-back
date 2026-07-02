@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/admin/order")
 @RequiredArgsConstructor
-@Tag(name = "后台-订单管理")
+@Tag(name = "后台-订单管理", description = "订单列表、确认、退款审核")
 public class AdminOrderController {
 
     private final OrderService orderService;

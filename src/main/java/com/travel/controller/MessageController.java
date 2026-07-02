@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/message")
 @RequiredArgsConstructor
-@Tag(name = "站内消息")
+@Tag(name = "站内消息", description = "消息列表、未读数、标记已读")
 public class MessageController {
 
     private final MessageService messageService;

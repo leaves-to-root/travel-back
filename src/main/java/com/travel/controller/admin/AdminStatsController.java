@@ -21,7 +21,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/admin/stats")
 @RequiredArgsConstructor
-@Tag(name = "后台-数据统计")
+@Tag(name = "后台-数据统计", description = "控制台仪表盘、核心指标")
 public class AdminStatsController {
 
     private final OrderService orderService;

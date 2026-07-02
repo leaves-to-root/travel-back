@@ -24,7 +24,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
-@Tag(name = "用户认证")
+@Tag(name = "用户认证", description = "注册、登录、登出、获取当前用户")
 public class AuthController {
 
     private final UserService userService;

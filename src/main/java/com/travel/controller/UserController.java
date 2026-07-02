@@ -18,7 +18,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/user")
 @RequiredArgsConstructor
-@Tag(name = "用户中心")
+@Tag(name = "用户中心", description = "个人资料修改、密码修改")
 public class UserController {
 
     private final UserService userService;

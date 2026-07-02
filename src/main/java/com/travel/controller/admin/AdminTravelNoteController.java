@@ -15,7 +15,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/admin/note")
 @RequiredArgsConstructor
-@Tag(name = "后台-游记管理")
+@Tag(name = "后台-游记管理", description = "游记审核、上下架、删除")
 public class AdminTravelNoteController {
 
     private final TravelNoteService noteService;

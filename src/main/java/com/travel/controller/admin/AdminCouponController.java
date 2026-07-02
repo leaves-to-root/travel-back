@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/admin/coupon")
 @RequiredArgsConstructor
-@Tag(name = "后台-优惠券管理")
+@Tag(name = "后台-优惠券管理", description = "优惠券CRUD、发放管理")
 public class AdminCouponController {
 
     private final CouponService couponService;

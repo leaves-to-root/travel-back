@@ -161,7 +161,7 @@ public class OrderController {
                 .eq(Order::getUserId, userId);
         if (status != null) qw.eq(Order::getStatus, status);
         qw.orderByDesc(Order::getCreateTime);
-        Page<Order> result = orderService.page(new Page<>(page, size), qw);
+        Page<Order> result = qw.page(new Page<>(page, size));
         return Result.success(new PageResult<>(result));
     }
 

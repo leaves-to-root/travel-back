@@ -36,7 +36,7 @@ public class FavoriteController {
                 .one();
         boolean nowFav;
         if (exist != null) {
-            favoriteService.removeById(exist.getId());
+            favoriteService.physicalDelete(userId, productId);
             nowFav = false;
         } else {
             Favorite fav = new Favorite();

@@ -7,6 +7,19 @@ spring:
   jackson:
     time-zone: GMT+8
     date-format: yyyy-MM-dd HH:mm:ss
+  mail:
+    host: smtp.163.com
+    port: 465
+    username: ${163MAIL_USERNAME}
+    password: ${163MAIL_PASSWORD}
+    default-encoding: UTF-8
+    properties:
+      mail.smtp.auth: true
+      mail.smtp.ssl.enable: true
+      mail.smtp.ssl.trust: smtp.163.com
+      mail.smtp.connectiontimeout: 15000
+      mail.smtp.timeout: 15000
+      mail.smtp.writetimeout: 15000
   sql:
     init:
       mode: never
@@ -57,7 +70,17 @@ travel:
   # 阿里云 OSS（请按需填写真实配置）
   aliyun:
     oss:
-      endpoint: ""
-      access-key-id: ""
-      access-key-secret: ""
-      bucket-name: ""
+      endpoint: "oss-cn-beijing.aliyuncs.com"
+      access-key-id: ${ALY_OSS_ACCESS_KEY_ID}
+      access-key-secret: ${ALY_OSS_ACCESS_KEY_SECRET}
+      bucket-name: "chrono-judge"
+  # GitHub OAuth2 手动接入配置（client-id/secret 在下方 spring.security 段配置）
+  oauth2:
+    github:
+      callback-url: "http://localhost:8080/api/auth/github/callback"  # 需与 GitHub OAuth App 中一致
+      front-success-url: "http://localhost:5173/login"                # 登录成功后重定向到的前端页面
+
+# GitHub OAuth2 凭据（在 GitHub Settings → Developer settings → OAuth Apps 中创建后填入）
+spring.security.oauth2.client.registration.github:
+  client-id: ${GITHUB_CLIENT_ID}
+  client-secret: ${GITHUB_CLIENT_SECRET}

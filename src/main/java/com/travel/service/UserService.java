@@ -10,4 +10,7 @@ public interface UserService extends IService<User> {
 
     /** 按手机号查找 */
     User getByPhone(String phone);
+
+    /** 按邮箱查找 */
+    User getByEmail(String email);
 }

@@ -8,4 +8,9 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class FavoriteServiceImpl extends ServiceImpl<FavoriteMapper, Favorite> implements FavoriteService {
+
+    @Override
+    public int physicalDelete(Long userId, Long productId) {
+        return baseMapper.physicalDelete(userId, productId);
+    }
 }

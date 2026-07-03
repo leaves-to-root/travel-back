@@ -82,5 +82,5 @@ travel:
 
 # GitHub OAuth2 凭据（在 GitHub Settings → Developer settings → OAuth Apps 中创建后填入）
 spring.security.oauth2.client.registration.github:
-  client-id: "xxx"
-  client-secret: "xxx"
+  client-id: ${GITHUB_CLIENT_ID}
+  client-secret: ${GITHUB_CLIENT_SECRET}

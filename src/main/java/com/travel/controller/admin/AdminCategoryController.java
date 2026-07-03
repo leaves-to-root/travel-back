@@ -19,9 +19,10 @@ public class AdminCategoryController {
     private final CategoryService categoryService;
 
     @GetMapping("/list")
-    @Operation(summary = "分类列表（全部）")
-    public Result<List<Category>> list() {
+    @Operation(summary = "分类列表")
+    public Result<List<Category>> list(@RequestParam(required = false) Long parentId) {
         List<Category> list = categoryService.lambdaQuery()
+                .eq(parentId != null, Category::getParentId, parentId)
                 .orderByAsc(Category::getSort)
                 .list();
         return Result.success(list);

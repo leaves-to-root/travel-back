@@ -83,3 +83,13 @@ travel:
       access-key-id: "xxx"
       access-key-secret: "xxx"
       bucket-name: "xxx"
+  # GitHub OAuth2 手动接入配置（client-id/secret 在下方 spring.security 段配置）
+  oauth2:
+    github:
+      callback-url: "http://localhost:8080/api/auth/github/callback"  # 需与 GitHub OAuth App 中一致
+      front-success-url: "http://localhost:5173/login"                # 登录成功后重定向到的前端页面
+
+# GitHub OAuth2 凭据（在 GitHub Settings → Developer settings → OAuth Apps 中创建后填入）
+spring.security.oauth2.client.registration.github:
+  client-id: "xxx"
+  client-secret: "xxx"

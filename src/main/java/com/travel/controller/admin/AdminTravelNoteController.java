@@ -3,6 +3,7 @@ package com.travel.controller.admin;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.travel.common.PageResult;
 import com.travel.common.Result;
+import com.travel.common.annotation.OpLog;
 import com.travel.entity.TravelNote;
 import com.travel.service.TravelNoteService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -35,6 +36,7 @@ public class AdminTravelNoteController {
 
     @PutMapping("/status/{id}")
     @Operation(summary = "审核游记状态")
+    @OpLog(module = "游记管理", action = "审核游记")
     public Result<Void> updateStatus(@PathVariable Long id, @RequestBody Map<String, Integer> body) {
         noteService.lambdaUpdate()
                 .eq(TravelNote::getId, id)
@@ -45,6 +47,7 @@ public class AdminTravelNoteController {
 
     @DeleteMapping("/delete/{id}")
     @Operation(summary = "删除游记")
+    @OpLog(module = "游记管理", action = "删除游记")
     public Result<Void> delete(@PathVariable Long id) {
         noteService.removeById(id);
         return Result.success();

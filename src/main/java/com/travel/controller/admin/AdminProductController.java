@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.travel.common.Constants;
 import com.travel.common.PageResult;
 import com.travel.common.Result;
+import com.travel.common.annotation.OpLog;
 import com.travel.entity.Product;
 import com.travel.service.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -36,6 +37,7 @@ public class AdminProductController {
 
     @PostMapping("/save")
     @Operation(summary = "新增/修改产品")
+    @OpLog(module = "产品管理", action = "新增/修改产品")
     public Result<Void> save(@RequestBody Product product) {
         if (product.getId() == null) product.setStatus(Constants.PRODUCT_ONLINE);
         productService.saveOrUpdate(product);
@@ -50,6 +52,7 @@ public class AdminProductController {
 
     @PutMapping("/status/{id}")
     @Operation(summary = "上下架")
+    @OpLog(module = "产品管理", action = "上下架产品")
     public Result<Void> toggleStatus(@PathVariable Long id, @RequestBody Map<String, Integer> body) {
         productService.lambdaUpdate()
                 .eq(Product::getId, id)
@@ -60,6 +63,7 @@ public class AdminProductController {
 
     @DeleteMapping("/delete/{id}")
     @Operation(summary = "删除产品")
+    @OpLog(module = "产品管理", action = "删除产品")
     public Result<Void> delete(@PathVariable Long id) {
         productService.removeById(id);
         return Result.success();

@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.travel.common.BizException;
 import com.travel.common.PageResult;
 import com.travel.common.Result;
+import com.travel.common.annotation.OpLog;
 import com.travel.entity.Coupon;
 import com.travel.entity.User;
 import com.travel.entity.UserCoupon;
@@ -46,6 +47,7 @@ public class AdminUserController {
 
     @PutMapping("/status/{userId}")
     @Operation(summary = "启用/禁用用户")
+    @OpLog(module = "用户管理", action = "启用/禁用用户")
     public Result<Void> toggleStatus(@PathVariable Long userId, @RequestBody Map<String, Integer> body) {
         User user = userService.getById(userId);
         if (user != null) {
@@ -54,7 +56,6 @@ public class AdminUserController {
         }
         return Result.success();
     }
-
     @PostMapping("/coupon/{userId}")
     @Operation(summary = "给用户分发优惠券")
     public Result<Void> distributeCoupon(@PathVariable Long userId, @RequestBody Map<String, Long> body) {

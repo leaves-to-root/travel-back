@@ -73,8 +73,6 @@ public class OpLogAspect {
         Object result;
         try {
             result = joinPoint.proceed();
-        } catch (Throwable e) {
-            throw e;
         } finally {
             operationLog.setCostMs(System.currentTimeMillis() - start);
             try {

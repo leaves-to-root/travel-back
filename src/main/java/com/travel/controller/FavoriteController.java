@@ -39,6 +39,7 @@ public class FavoriteController {
             favoriteService.physicalDelete(userId, productId);
             nowFav = false;
         } else {
+            favoriteService.physicalDelete(userId, productId);
             Favorite fav = new Favorite();
             fav.setUserId(userId);
             fav.setProductId(productId);

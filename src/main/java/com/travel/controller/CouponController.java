@@ -2,6 +2,7 @@ package com.travel.controller;
 
 import com.travel.common.Result;
 import com.travel.common.context.BaseContext;
+import com.travel.dto.vo.UserCouponVO;
 import com.travel.entity.Coupon;
 import com.travel.entity.UserCoupon;
 import com.travel.service.CouponService;
@@ -12,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -67,12 +69,31 @@ public class CouponController {
 
     @GetMapping("/mine")
     @Operation(summary = "我的优惠券")
-    public Result<List<UserCoupon>> mine() {
+    public Result<List<UserCouponVO>> mine() {
         Long userId = BaseContext.getCurrentId();
-        List<UserCoupon> list = userCouponService.lambdaQuery()
+        List<UserCoupon> userCoupons = userCouponService.lambdaQuery()
                 .eq(UserCoupon::getUserId, userId)
                 .orderByDesc(UserCoupon::getCreateTime)
                 .list();
-        return Result.success(list);
+
+        List<UserCouponVO> vos = new ArrayList<>();
+        for (UserCoupon uc : userCoupons) {
+            Coupon coupon = couponService.getById(uc.getCouponId());
+            if (coupon == null) continue;
+
+            UserCouponVO vo = new UserCouponVO();
+            vo.setId(uc.getId());
+            vo.setCouponId(uc.getCouponId());
+            vo.setName(coupon.getName());
+            vo.setType(coupon.getType());
+            vo.setFaceValue(coupon.getFaceValue());
+            vo.setMinAmount(coupon.getMinAmount());
+            vo.setStatus(uc.getStatus());
+            vo.setExpireTime(uc.getExpireTime());
+            vo.setCreateTime(uc.getCreateTime());
+            vos.add(vo);
+        }
+
+        return Result.success(vos);
     }
 }

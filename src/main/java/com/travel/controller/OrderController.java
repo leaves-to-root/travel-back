@@ -95,11 +95,8 @@ public class OrderController {
             Coupon coupon = couponService.getById(uc.getCouponId());
             if (coupon != null) {
                 BigDecimal total = price.multiply(BigDecimal.valueOf(req.getPersonCount()));
-                if (total.compareTo(coupon.getMinAmount()) >= 0) {
-                    if (coupon.getType() == 1 || coupon.getType() == 3) { // 满减/直减
-                        couponAmount = coupon.getFaceValue().min(total);
-                    }
-                }
+                // 直减券：直接减免faceValue，不超过总金额
+                couponAmount = coupon.getFaceValue().min(total);
                 uc.setStatus(1);
                 uc.setOrderId(null); // 将在订单创建后更新
                 userCouponService.updateById(uc);
@@ -220,6 +217,16 @@ public class OrderController {
                 .one();
         if (order == null) throw new BizException("订单不存在");
         if (order.getStatus() != 0) throw new BizException("只能取消待支付订单");
+        
+        // 归还优惠券
+        if (order.getCouponId() != null) {
+            userCouponService.lambdaUpdate()
+                    .eq(UserCoupon::getId, order.getCouponId())
+                    .set(UserCoupon::getStatus, 0)
+                    .set(UserCoupon::getOrderId, null)
+                    .update();
+        }
+        
         order.setStatus(3);
         orderService.updateById(order);
         return Result.success();

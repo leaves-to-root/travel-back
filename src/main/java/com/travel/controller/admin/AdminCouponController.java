@@ -3,6 +3,7 @@ package com.travel.controller.admin;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.travel.common.PageResult;
 import com.travel.common.Result;
+import com.travel.common.annotation.OpLog;
 import com.travel.entity.Coupon;
 import com.travel.service.CouponService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -29,6 +30,7 @@ public class AdminCouponController {
 
     @PostMapping("/save")
     @Operation(summary = "新增/修改优惠券")
+    @OpLog(module = "优惠券管理", action = "新增/修改优惠券")
     public Result<Void> save(@RequestBody Coupon coupon) {
         if (coupon.getId() == null) {
             coupon.setRemainCount(coupon.getTotalCount());
@@ -39,6 +41,7 @@ public class AdminCouponController {
 
     @DeleteMapping("/delete/{id}")
     @Operation(summary = "删除优惠券")
+    @OpLog(module = "优惠券管理", action = "删除优惠券")
     public Result<Void> delete(@PathVariable Long id) {
         couponService.removeById(id);
         return Result.success();

@@ -3,6 +3,7 @@ package com.travel.controller.admin;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.travel.common.PageResult;
 import com.travel.common.Result;
+import com.travel.common.annotation.OpLog;
 import com.travel.entity.Order;
 import com.travel.service.OrderService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -41,6 +42,7 @@ public class AdminOrderController {
 
     @PostMapping("/confirm/{id}")
     @Operation(summary = "确认订单（标记已完成）")
+    @OpLog(module = "订单管理", action = "确认订单")
     public Result<Void> confirm(@PathVariable Long id) {
         orderService.lambdaUpdate()
                 .eq(Order::getId, id)
@@ -51,6 +53,7 @@ public class AdminOrderController {
 
     @PostMapping("/refund/{id}")
     @Operation(summary = "退款审核通过")
+    @OpLog(module = "订单管理", action = "退款审核通过")
     public Result<Void> approveRefund(@PathVariable Long id) {
         orderService.lambdaUpdate()
                 .eq(Order::getId, id)

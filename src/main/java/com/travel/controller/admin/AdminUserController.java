@@ -3,6 +3,7 @@ package com.travel.controller.admin;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.travel.common.PageResult;
 import com.travel.common.Result;
+import com.travel.common.annotation.OpLog;
 import com.travel.entity.User;
 import com.travel.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -38,6 +39,7 @@ public class AdminUserController {
 
     @PutMapping("/status/{userId}")
     @Operation(summary = "启用/禁用用户")
+    @OpLog(module = "用户管理", action = "启用/禁用用户")
     public Result<Void> toggleStatus(@PathVariable Long userId, @RequestBody Map<String, Integer> body) {
         User user = userService.getById(userId);
         if (user != null) {

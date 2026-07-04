@@ -1,6 +1,7 @@
 package com.travel.controller.admin;
 
 import com.travel.common.Result;
+import com.travel.common.annotation.OpLog;
 import com.travel.entity.Banner;
 import com.travel.service.BannerService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -29,6 +30,7 @@ public class AdminBannerController {
 
     @PostMapping("/save")
     @Operation(summary = "新增/修改轮播图")
+    @OpLog(module = "轮播图管理", action = "新增/修改轮播图")
     public Result<Void> save(@RequestBody Banner banner) {
         if (banner.getId() == null) banner.setStatus(1);
         bannerService.saveOrUpdate(banner);
@@ -37,6 +39,7 @@ public class AdminBannerController {
 
     @DeleteMapping("/delete/{id}")
     @Operation(summary = "删除轮播图")
+    @OpLog(module = "轮播图管理", action = "删除轮播图")
     public Result<Void> delete(@PathVariable Long id) {
         bannerService.removeById(id);
         return Result.success();
